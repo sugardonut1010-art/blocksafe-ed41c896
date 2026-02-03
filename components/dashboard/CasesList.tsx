@@ -16,7 +16,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
+import type { Database } from "@/lib/supabase/types";
 import { Skeleton } from "@/components/ui/skeleton";
+
+type RecoveryCaseRow = Database["public"]["Tables"]["recovery_cases"]["Row"];
 
 interface RecoveryCase {
   id: string;
@@ -63,14 +66,28 @@ const CasesList = ({ onUpdate }: CasesListProps) => {
   const fetchCases = async (userId: string) => {
     const supabase = createClient();
     try {
-      const { data, error } = await supabase
+      const { data: casesData, error } = await supabase
         .from("recovery_cases")
         .select("*")
         .eq("user_id", userId)
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      setCases(data || []);
+      const typedCases = (casesData || []) as RecoveryCaseRow[];
+      setCases(typedCases.map(c => ({
+        id: c.id,
+        case_number: c.case_number,
+        scam_type: c.scam_type,
+        chain: c.chain,
+        scammer_address: c.scammer_address,
+        amount_lost: c.amount_lost,
+        amount_recovered: c.amount_recovered,
+        recovery_status: c.recovery_status,
+        description: c.description || "",
+        status_notes: c.status_notes || "",
+        created_at: c.created_at,
+        updated_at: c.updated_at,
+      })));
     } catch (error) {
       console.error("Error fetching cases:", error);
     } finally {

@@ -8,8 +8,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
+import type { Database } from "@/lib/supabase/types";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
+
+type ProfileRow = Database["public"]["Tables"]["profiles"]["Row"];
 
 interface Profile {
   id: string;
@@ -39,7 +42,7 @@ const ProfileSection = () => {
   const fetchProfile = async (userId: string) => {
     const supabase = createClient();
     try {
-      const { data, error } = await supabase
+      const { data: profileData, error } = await supabase
         .from("profiles")
         .select("*")
         .eq("user_id", userId)
@@ -47,10 +50,16 @@ const ProfileSection = () => {
 
       if (error) throw error;
 
-      if (data) {
-        setProfile(data);
-        setFullName(data.full_name || "");
-        setPhone(data.phone || "");
+      if (profileData) {
+        const profile = profileData as ProfileRow;
+        setProfile({
+          id: profile.id,
+          full_name: profile.full_name,
+          email: profile.email,
+          phone: profile.phone,
+        });
+        setFullName(profile.full_name || "");
+        setPhone(profile.phone || "");
       }
     } catch (error) {
       console.error("Error fetching profile:", error);

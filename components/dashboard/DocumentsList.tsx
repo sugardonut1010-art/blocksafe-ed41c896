@@ -15,8 +15,15 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
+import type { Database } from "@/lib/supabase/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
+
+type CaseDocumentRow = Database["public"]["Tables"]["case_documents"]["Row"] & {
+  recovery_cases: {
+    case_number: string;
+  } | null;
+};
 
 interface CaseDocument {
   id: string;
@@ -53,7 +60,7 @@ const DocumentsList = () => {
   const fetchDocuments = async (userId: string) => {
     const supabase = createClient();
     try {
-      const { data, error } = await supabase
+      const { data: documentsData, error } = await supabase
         .from("case_documents")
         .select(`
           *,
@@ -65,7 +72,16 @@ const DocumentsList = () => {
         .order("uploaded_at", { ascending: false });
 
       if (error) throw error;
-      setDocuments(data || []);
+      const typedDocuments = (documentsData || []) as CaseDocumentRow[];
+      setDocuments(typedDocuments.map(doc => ({
+        id: doc.id,
+        case_id: doc.case_id,
+        file_name: doc.file_name,
+        file_url: doc.file_url,
+        file_type: doc.file_type || "",
+        uploaded_at: doc.uploaded_at,
+        recovery_cases: doc.recovery_cases || { case_number: "" },
+      })));
     } catch (error) {
       console.error("Error fetching documents:", error);
     } finally {

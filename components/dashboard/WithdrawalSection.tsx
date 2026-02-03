@@ -38,8 +38,13 @@ import {
 } from "@/components/ui/dialog";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
+import type { Database } from "@/lib/supabase/types";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
+
+type WithdrawalRequestRow = Database["public"]["Tables"]["withdrawal_requests"]["Row"];
+type GasFeeConfigRow = Database["public"]["Tables"]["gas_fee_config"]["Row"];
+type RecoveryCaseRow = Database["public"]["Tables"]["recovery_cases"]["Row"];
 
 interface WithdrawalRequest {
   id: string;
@@ -125,33 +130,59 @@ const WithdrawalSection = ({ availableBalance, onWithdrawalSubmit }: WithdrawalS
     const supabase = createClient();
     try {
       // Fetch eligible cases (ready for withdrawal)
-      const { data: cases, error: casesError } = await supabase
+      const { data: casesData, error: casesError } = await supabase
         .from("recovery_cases")
         .select("id, case_number, amount_recovered")
         .eq("user_id", userId)
         .eq("recovery_status", "ready_for_withdrawal");
 
       if (casesError) throw casesError;
-      setEligibleCases(cases || []);
+      const typedCases = (casesData || []) as Pick<RecoveryCaseRow, "id" | "case_number" | "amount_recovered">[];
+      setEligibleCases(typedCases.map(c => ({
+        id: c.id,
+        case_number: c.case_number,
+        amount_recovered: c.amount_recovered,
+      })));
 
       // Fetch withdrawal history
-      const { data: history, error: historyError } = await supabase
+      const { data: historyData, error: historyError } = await supabase
         .from("withdrawal_requests")
         .select("*")
         .eq("user_id", userId)
         .order("created_at", { ascending: false });
 
       if (historyError) throw historyError;
-      setWithdrawalHistory(history || []);
+      const typedHistory = (historyData || []) as WithdrawalRequestRow[];
+      setWithdrawalHistory(typedHistory.map(h => ({
+        id: h.id,
+        amount: h.amount,
+        withdrawal_method: h.withdrawal_method,
+        status: h.status,
+        created_at: h.created_at,
+        processed_at: h.processed_at,
+        wallet_address: h.wallet_address || undefined,
+        bank_name: h.bank_name || undefined,
+        admin_notes: h.admin_notes || undefined,
+        gas_fee_paid: h.gas_fee_paid || undefined,
+        gas_fee_network: h.gas_fee_network || undefined,
+        gas_fee_amount: h.gas_fee_amount || undefined,
+      })));
 
       // Fetch gas fee configurations
-      const { data: gasFees, error: gasFeesError } = await supabase
+      const { data: gasFeesData, error: gasFeesError } = await supabase
         .from("gas_fee_config")
         .select("*")
         .eq("is_active", true);
 
       if (gasFeesError) throw gasFeesError;
-      setGasFeeConfigs(gasFees || []);
+      const typedGasFees = (gasFeesData || []) as GasFeeConfigRow[];
+      setGasFeeConfigs(typedGasFees.map(g => ({
+        id: g.id,
+        network: g.network,
+        gas_fee_amount: g.gas_fee_amount,
+        wallet_address: g.wallet_address,
+        is_active: g.is_active,
+      })));
     } catch (error) {
       console.error("Error fetching withdrawal data:", error);
     } finally {
