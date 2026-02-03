@@ -183,7 +183,7 @@ export default function FAQPage() {
           <CardContent className="pt-8 pb-8">
             <h3 className="text-2xl font-bold mb-4">Still have questions?</h3>
             <p className="text-muted-foreground mb-6">
-              Can't find the answer you're looking for? Reach out to our support team.
+              Can&apos;t find the answer you&apos;re looking for? Reach out to our support team.
             </p>
             <a
               href="mailto:support@blocksafespace.com"

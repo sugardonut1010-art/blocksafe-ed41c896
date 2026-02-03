@@ -30,7 +30,7 @@ export default function AboutPage() {
             About <span className="text-primary text-glow-primary">Blocksafespace</span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            We're building a safer Web3 ecosystem by empowering the community 
+            We&apos;re building a safer Web3 ecosystem by empowering the community 
             to identify and expose blockchain scams.
           </p>
         </div>
@@ -121,7 +121,7 @@ export default function AboutPage() {
             Join the Fight Against Crypto Fraud
           </h2>
           <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
-            Every report makes Web3 safer. Whether you've been scammed or spotted 
+            Every report makes Web3 safer. Whether you&apos;ve been scammed or spotted 
             suspicious activity, your contribution matters.
           </p>
         </section>

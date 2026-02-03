@@ -453,7 +453,7 @@ const WithdrawalSection = ({ availableBalance, onWithdrawalSubmit }: WithdrawalS
                 <AlertCircle className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
                 <h3 className="text-lg font-semibold mb-2">No Funds Available</h3>
                 <p className="text-muted-foreground text-sm">
-                  You don't have any funds available for withdrawal yet.
+                  You don&apos;t have any funds available for withdrawal yet.
                   Check back when your recovery cases are ready.
                 </p>
               </div>
@@ -581,7 +581,7 @@ const WithdrawalSection = ({ availableBalance, onWithdrawalSubmit }: WithdrawalS
                     <div className="p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/20">
                       <p className="text-sm text-yellow-600 dark:text-yellow-400">
                         <AlertCircle className="h-4 w-4 inline mr-1" />
-                        Bank transfers require tax verification. You'll need to contact support after submission.
+                        Bank transfers require tax verification. You&apos;ll need to contact support after submission.
                       </p>
                     </div>
                     <div className="space-y-2">

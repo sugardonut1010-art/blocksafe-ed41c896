@@ -37,7 +37,7 @@ interface CasesListProps {
   onUpdate: () => void;
 }
 
-const recoveryStatusConfig: Record<string, { label: string; color: string; icon: React.ComponentType<any> }> = {
+const recoveryStatusConfig: Record<string, { label: string; color: string; icon: React.ComponentType<React.SVGProps<SVGSVGElement>> }> = {
   investigation: { label: "Investigation", color: "bg-yellow-500/10 text-yellow-500 border-yellow-500/20", icon: SearchIcon },
   tracing: { label: "Tracing", color: "bg-blue-500/10 text-blue-500 border-blue-500/20", icon: RefreshCcw },
   recovery: { label: "Recovery", color: "bg-purple-500/10 text-purple-500 border-purple-500/20", icon: RefreshCcw },
@@ -127,7 +127,7 @@ const CasesList = ({ onUpdate }: CasesListProps) => {
           <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
           <h3 className="text-lg font-semibold mb-2">No Recovery Cases</h3>
           <p className="text-muted-foreground">
-            You don't have any active recovery cases yet.
+            You don&apos;t have any active recovery cases yet.
           </p>
         </CardContent>
       </Card>

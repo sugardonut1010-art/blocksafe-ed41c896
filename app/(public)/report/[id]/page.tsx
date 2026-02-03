@@ -64,7 +64,7 @@ export default function ReportDetailPage() {
           </div>
           <h1 className="text-2xl font-bold text-foreground mb-4">Report Not Found</h1>
           <p className="text-muted-foreground mb-8">
-            The report you're looking for doesn't exist or has been removed.
+            The report you&apos;re looking for doesn&apos;t exist or has been removed.
           </p>
           <Button asChild>
             <Link href="/search">
@@ -215,7 +215,7 @@ export default function ReportDetailPage() {
                       <h3 className="font-bold text-destructive mb-2">⚠️ Confirmed Scam Address</h3>
                       <p className="text-muted-foreground text-sm">
                         This address has been verified as malicious. Do not send any funds to this address 
-                        or interact with any smart contracts associated with it. If you've been affected, 
+                        or interact with any smart contracts associated with it. If you&apos;ve been affected, 
                         please report to local authorities and relevant blockchain security teams.
                       </p>
                     </div>
@@ -276,7 +276,7 @@ export default function ReportDetailPage() {
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-4 w-4 text-success mt-0.5 flex-shrink-0" />
-                    Be wary of unsolicited DMs and "support" contacts
+                    Be wary of unsolicited DMs and &quot;support&quot; contacts
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-4 w-4 text-success mt-0.5 flex-shrink-0" />

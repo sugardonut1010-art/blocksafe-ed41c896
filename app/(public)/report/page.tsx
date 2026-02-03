@@ -119,7 +119,7 @@ export default function ReportPage() {
           </h1>
           <p className="text-muted-foreground max-w-xl mx-auto">
             Help protect others by reporting fraudulent wallet addresses, fake projects, 
-            or any scam activity you've encountered in the Web3 space.
+            or any scam activity you&apos;ve encountered in the Web3 space.
           </p>
         </div>
 
