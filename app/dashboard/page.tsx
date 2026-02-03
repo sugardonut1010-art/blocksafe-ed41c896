@@ -19,6 +19,10 @@ import DocumentsList from "@/components/dashboard/DocumentsList";
 import WithdrawalSection from "@/components/dashboard/WithdrawalSection";
 import ProfileSection from "@/components/dashboard/ProfileSection";
 import type { User } from "@supabase/supabase-js";
+import type { Database } from "@/lib/supabase/types";
+
+type RecoveryCase = Database["public"]["Tables"]["recovery_cases"]["Row"];
+type WithdrawalRequest = Database["public"]["Tables"]["withdrawal_requests"]["Row"];
 
 interface DashboardStats {
   totalCases: number;
@@ -70,15 +74,17 @@ export default function DashboardPage() {
       const supabase = createClient();
       
       // Fetch recovery cases
-      const { data: cases, error: casesError } = await supabase
+      const { data: casesData, error: casesError } = await supabase
         .from("recovery_cases")
         .select("*")
         .eq("user_id", userId);
 
       if (casesError) throw casesError;
 
+      const cases = (casesData || []) as RecoveryCase[];
+
       // Fetch pending withdrawals
-      const { data: withdrawals, error: withdrawalsError } = await supabase
+      const { data: withdrawalsData, error: withdrawalsError } = await supabase
         .from("withdrawal_requests")
         .select("amount")
         .eq("user_id", userId)
@@ -86,17 +92,19 @@ export default function DashboardPage() {
 
       if (withdrawalsError) throw withdrawalsError;
 
-      const totalLost = cases?.reduce((sum, c) => sum + Number(c.amount_lost), 0) || 0;
-      const totalRecovered = cases?.reduce((sum, c) => sum + Number(c.amount_recovered), 0) || 0;
-      const pendingWithdrawals = withdrawals?.reduce((sum, w) => sum + Number(w.amount), 0) || 0;
+      const withdrawals = (withdrawalsData || []) as Pick<WithdrawalRequest, "amount">[];
+
+      const totalLost = cases.reduce((sum, c) => sum + Number(c.amount_lost), 0);
+      const totalRecovered = cases.reduce((sum, c) => sum + Number(c.amount_recovered), 0);
+      const pendingWithdrawals = withdrawals.reduce((sum, w) => sum + Number(w.amount), 0);
       
       // Calculate available for withdrawal (cases ready for withdrawal minus pending requests)
       const readyForWithdrawal = cases
-        ?.filter(c => c.recovery_status === "ready_for_withdrawal")
-        .reduce((sum, c) => sum + Number(c.amount_recovered), 0) || 0;
+        .filter(c => c.recovery_status === "ready_for_withdrawal")
+        .reduce((sum, c) => sum + Number(c.amount_recovered), 0);
 
       setStats({
-        totalCases: cases?.length || 0,
+        totalCases: cases.length,
         totalLost,
         totalRecovered,
         pendingWithdrawals,
