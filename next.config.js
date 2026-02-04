@@ -45,12 +45,9 @@ const nextConfig = {
 
   // Webpack configuration
   webpack: (config, { isServer }) => {
-    // Ignore entire src directory from build (legacy React Router code)
-    config.module.rules.push({
-      test: /src[\\/].*\.(ts|tsx|js|jsx)$/,
-      use: 'ignore-loader',
-    });
-
+    // Note: src/ directory is already ignored via .vercelignore and outputFileTracingExcludes
+    // Removing ignore-loader rule to prevent interference with Next.js CSS processing
+    
     // Optimize bundle size
     if (!isServer) {
       config.resolve.fallback = {
