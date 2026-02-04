@@ -5,12 +5,9 @@ const nextConfig = {
   // Only use app directory for pages
   pageExtensions: ['tsx', 'ts', 'jsx', 'js'],
   
-  // Experimental features
-  experimental: {
-    // Exclude src directory from output file tracing
-    outputFileTracingExcludes: {
-      '*': ['./src/**/*'],
-    },
+  // Exclude src directory from output file tracing
+  outputFileTracingExcludes: {
+    '*': ['./src/**/*'],
   },
   
   // Image optimization
@@ -21,13 +18,8 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
 
-  // ESLint configuration
-  eslint: {
-    // Only run ESLint on these directories during builds
-    dirs: ['app', 'components', 'lib'],
-    // Don't ignore errors during build to catch issues early
-    ignoreDuringBuilds: false,
-  },
+  // ESLint configuration moved to eslint.config.js or .eslintrc
+  // ESLint options in next.config.js are no longer supported in Next.js 16
 
   // TypeScript configuration
   typescript: {
@@ -36,30 +28,16 @@ const nextConfig = {
   },
 
   // Compiler optimizations
-  swcMinify: true,
+  // swcMinify is now default in Next.js 16, no need to specify
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production' ? {
       exclude: ['error', 'warn'],
     } : false,
   },
 
-  // Webpack configuration
-  webpack: (config, { isServer }) => {
-    // Note: src/ directory is already ignored via .vercelignore and outputFileTracingExcludes
-    // Removing ignore-loader rule to prevent interference with Next.js CSS processing
-    
-    // Optimize bundle size
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-        net: false,
-        tls: false,
-      };
-    }
-
-    return config;
-  },
+  // Note: Webpack configuration removed for Next.js 16
+  // Next.js 16 uses Turbopack by default, which handles module fallbacks automatically
+  // If you need webpack, you can explicitly opt-in, but Turbopack is recommended
 
   // Headers for security and performance
   async headers() {

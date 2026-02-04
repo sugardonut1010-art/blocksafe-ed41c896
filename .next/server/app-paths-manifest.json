@@ -1,6 +1,15 @@
 {
-  "/api/report/route": "app/api/report/route.js",
+  "/(auth)/login/page": "app/(auth)/login/page.js",
+  "/(public)/about/page": "app/(public)/about/page.js",
+  "/(public)/faq/page": "app/(public)/faq/page.js",
   "/(public)/page": "app/(public)/page.js",
+  "/(public)/privacy/page": "app/(public)/privacy/page.js",
+  "/(public)/report/[id]/page": "app/(public)/report/[id]/page.js",
   "/(public)/report/page": "app/(public)/report/page.js",
-  "/(public)/search/page": "app/(public)/search/page.js"
+  "/(public)/search/page": "app/(public)/search/page.js",
+  "/(public)/terms/page": "app/(public)/terms/page.js",
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/report/route": "app/api/report/route.js",
+  "/dashboard/page": "app/dashboard/page.js"
 }
