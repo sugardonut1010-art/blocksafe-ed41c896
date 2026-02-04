@@ -1,5 +1,6 @@
-# Ignore legacy src directory from Vercel builds
-src/
+# Ignore legacy src directory from Vercel builds (if not used)
+# Only uncomment if src/ is truly legacy and not needed
+# src/
 
 # Ignore test files
 **/*.test.ts

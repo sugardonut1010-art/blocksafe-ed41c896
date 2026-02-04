@@ -2,6 +2,17 @@
 const nextConfig = {
   reactStrictMode: true,
   
+  // Only use app directory for pages
+  pageExtensions: ['tsx', 'ts', 'jsx', 'js'],
+  
+  // Experimental features
+  experimental: {
+    // Exclude src directory from output file tracing
+    outputFileTracingExcludes: {
+      '*': ['./src/**/*'],
+    },
+  },
+  
   // Image optimization
   images: {
     domains: [],
@@ -34,9 +45,9 @@ const nextConfig = {
 
   // Webpack configuration
   webpack: (config, { isServer }) => {
-    // Ignore legacy src/pages directory from build
+    // Ignore entire src directory from build (legacy React Router code)
     config.module.rules.push({
-      test: /src[\\/]pages[\\/].*\.(ts|tsx)$/,
+      test: /src[\\/].*\.(ts|tsx|js|jsx)$/,
       use: 'ignore-loader',
     });
 

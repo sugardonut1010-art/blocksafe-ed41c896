@@ -258,6 +258,7 @@ const WithdrawalSection = ({ availableBalance, onWithdrawalSubmit }: WithdrawalS
     try {
       const { error } = await supabase
         .from("withdrawal_requests")
+        // @ts-expect-error - Supabase type inference issue with createBrowserClient
         .insert({
           user_id: user.id,
           case_id: pendingWithdrawal.caseId,
@@ -304,6 +305,7 @@ const WithdrawalSection = ({ availableBalance, onWithdrawalSubmit }: WithdrawalS
     try {
       const { error } = await supabase
         .from("withdrawal_requests")
+        // @ts-expect-error - Supabase type inference issue with createBrowserClient
         .insert({
           user_id: user.id,
           case_id: selectedCase,

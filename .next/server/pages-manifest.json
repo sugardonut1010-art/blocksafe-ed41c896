@@ -1,1 +1,16 @@
-{}
+{
+  "/AboutPage": "pages/AboutPage.js",
+  "/DashboardPage": "pages/DashboardPage.js",
+  "/FAQPage": "pages/FAQPage.js",
+  "/Index": "pages/Index.js",
+  "/LoginPage": "pages/LoginPage.js",
+  "/NotFound": "pages/NotFound.js",
+  "/PrivacyPage": "pages/PrivacyPage.js",
+  "/ReportDetailPage": "pages/ReportDetailPage.js",
+  "/ReportPage": "pages/ReportPage.js",
+  "/SearchPage": "pages/SearchPage.js",
+  "/TermsPage": "pages/TermsPage.js",
+  "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
+  "/_document": "pages/_document.js"
+}
